@@ -1,0 +1,25 @@
+table td {
+    vertical-align: middle;
+}
+
+.page-nav {
+    margin-right: 2rem;
+}
+
+.post-content {
+    font-size: 1.5rem;
+    width: 25%;
+}
+
+.up {
+    color: red;
+}
+
+.down {
+    color: green;
+}
+
+.fugle-img {
+    width: 2.5rem;
+    height: 2.5rem;
+}

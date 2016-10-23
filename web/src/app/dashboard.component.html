@@ -1,0 +1,56 @@
+<div *ngIf="noMoreData" class="text-center">
+    <h1>No Data</h1>
+    <a [routerLink]="['/dashboard']">Home</a>
+</div>
+
+<div *ngIf="!tracks.length && !noMoreData" class="text-center">
+    <h1>Loading...</h1>
+</div>
+
+<div *ngIf="tracks.length">
+    <div class="page-nav pull-right">
+        <button *ngIf="page!=0" class="btn btn-default" (click)="prevPage()">上一頁</button>
+        <button *ngIf="tracks.length==size" class="btn btn-default" (click)="nextPage()">下一頁</button>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>發文日期</th>
+                <th>標的</th>
+                <th>文章內容</th>
+                <th>原始連結</th>
+                <th class="text-center" colspan="2">績效</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let track of tracks">
+                <td><a [routerLink]="['/dashboard']" [queryParams]="{ user_id: track.user_id }">{{ track.user_id }}</a></td>
+                <td>{{ track.timestamp | date:"yyyy/MM/dd" }}</td>
+                <td>
+                    {{ track.symbol_name }} 
+                    (<a [routerLink]="['/dashboard']" [queryParams]="{ symbol_id: track.symbol_id }">{{ track.symbol_id }})</a>
+                    <a href="https://www.fugle.tw/q/5/{{track.symbol_id}}" target="_blank">
+                        <img src="assets/images/fugle.png" class="fugle-img" title="到Fugle看資料">
+                    </a>
+                </td>
+                <td class="post-content">{{ track.content | slice:0:100 }}...</td>
+                <td><a href="{{ track.url }}" target="_blank">連結</a></td>
+                <td>
+                    <my-brief-chart *ngIf="track.performances.days30!=undefined" [rawData]="track.prices"></my-brief-chart>
+                    <span *ngIf="track.performances.days30==undefined">
+                        -
+                    </span>                    
+                </td>
+                <td [class.up]="track.performance>0" [class.down]="track.performance<0">
+                    <span *ngIf="track.performances.days30!=undefined">
+                        {{ track.performances.days30 | percent:"1.2-2" }}
+                    </span>
+                    <span *ngIf="track.performances.days30==undefined">
+                        -
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

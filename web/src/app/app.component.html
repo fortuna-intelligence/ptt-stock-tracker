@@ -1,0 +1,27 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a routerLink="/dashboard" routerLinkActive="active" class="navbar-item">
+                <h1>{{ title }}</h1>
+            </a>
+            <a routerLink="/dashboard" routerLinkActive="active" class="navbar-item">
+                <h2>最新文章</h2>
+            </a>
+            <a [routerLink]="['/dashboard']" [queryParams]="{ ranking: true }" routerLinkActive="active" class="navbar-item">
+                <h2>歷史排行</h2>
+            </a>
+        </div>
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+        </ul>
+    </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+<footer>
+    <div class="text-center">
+        Powered by <a href="https://www.fugle.tw">Fugle</a>
+    </div>
+</footer>

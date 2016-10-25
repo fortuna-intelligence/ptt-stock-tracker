@@ -224,7 +224,7 @@ function crawlerWork(dateUntil) {
 
 // default to crawl last 3 days' data
 var today = moment().format('YYYYMMDD');
-var dateUntil = (process.argv.length > 2) ? moment(process.argv[2], "YYYYMMDD") : moment(today, 'YYYYMMDD').add(-30, 'days');
+var dateUntil = (process.argv.length > 2) ? moment(process.argv[2], "YYYYMMDD") : moment(today, 'YYYYMMDD').add(-3, 'days');
 
 console.log('PTT crawler Start...');
 return crawlerWork(dateUntil).done(function() {

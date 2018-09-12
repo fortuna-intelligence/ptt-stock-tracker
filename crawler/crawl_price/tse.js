@@ -23,11 +23,7 @@ function parseData(data, momentDate) {
         if (obj.sign === '<p style= color:green>-</p>') {
             obj.change = `-${obj.change}`;
         }
-        return {
-            symbol_id: obj.symbol_id,
-            type: 'tse',
-            tick: _.omit(obj, ['symbol_id', 'sign'])
-        };
+        return obj;
     })
     .filter((row) => {
         return row.symbol_id !== undefined;

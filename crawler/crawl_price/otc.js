@@ -5,26 +5,9 @@ var Promise = require('bluebird');
 var mongoose = require('mongoose');
 var request = require('request-promise');
 
-if (require.main === module) {
-    crawl(moment().add(-1, 'd')).then(function(data){
-        console.log(data);
-    });
-}
-
-module.exports.crawl = crawl;
-
-function crawl(momentDate) {
-    var TWyear = momentDate.year() - 1911;
-    return request({
-        uri: 'http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_print.php?l=zh-tw&d='+TWyear+'/'+momentDate.format('MM/DD')+'&s=0,asc,0',
-    }).then(function(data) {
-        return parseContent(data);
-    });
-}
-
-var Fields = ['symbol_id', 'close', 'change', 'open', 'high', 'low', 'avg', 'volume', 'amount', 'turnover'];
 function parseContent(body) {
     if (body.indexOf('共0筆') > 0) { throw new Error('no data'); }
+    var Fields = ['symbol_id', 'close', 'change', 'open', 'high', 'low', 'avg', 'volume', 'amount', 'turnover'];
     var $ = cheerio.load(body);
     var ret = [];
     var dateText = $('thead').find('tr').eq(0).text();
@@ -71,3 +54,26 @@ function parseContent(body) {
     if (ret.length === 0) { throw new Error('no data'); }
     return ret;
 }
+
+function crawl(momentDate) {
+    var TWyear = momentDate.utcOffset('+0800').year() - 1911;
+    var url = 'http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_print.php' +
+        `?l=zh-tw&d=${TWyear}/${momentDate.utcOffset('+0800').format('MM/DD')}&s=0,asc,0`;
+    return request({
+        url: url,
+        method: 'GET',
+    })
+    .then(parseContent)
+    .catch((err) => {
+        console.log(err);
+        return [];
+    });
+}
+
+if (require.main === module) {
+    crawl(moment().add(-1, 'd')).then(function(data){
+        console.log(data);
+    });
+}
+
+module.exports.crawl = crawl;

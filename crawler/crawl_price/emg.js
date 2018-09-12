@@ -6,32 +6,12 @@ var mongoose = require('mongoose');
 var request = require('request-promise');
 var iconv = require('iconv-lite');
 
-if (require.main === module) {
-    crawl(moment().add(-1, 'd')).then(function(data){
-        console.log(data);
-    });
-}
-
-module.exports.crawl = crawl;
-
-function crawl(momentDate){
-    return request({
-        uri: 'http://www.tpex.org.tw/web/emergingstock/historical/daily/EMdes010_result.php?l=zh-tw&f=EMdes010.' + momentDate.format("YYYYMMDD") + '-C.csv&_=' + (+moment()),
-        method: 'GET',
-        encoding : null
-    }).then(function(data){
-        return [iconv.decode(new Buffer(data), 'big5'), momentDate];
-    }).then(function(params) {
-        return parseContent(params);
-    });
-}
-
 // 興櫃目前資料定義: 
 // * 開盤價 = open  = 前日均價 (因為暫時無法取得第一筆成交資料)
 // * 收盤價 = close = 最後一筆成交
 // * avg(暫存) = 當日均價
-var Fields = ['symbol_id', 'avg', 'open', 'change', 'change_rate', 'high', 'low', 'close', 'volume', 'amount', 'turnover'];
 function parseContent(params) {
+    var Fields = ['symbol_id', 'avg', 'open', 'change', 'change_rate', 'high', 'low', 'close', 'volume', 'amount', 'turnover'];
 	var body = params[0];
 	var date = params[1].toDate();
 	var json = JSON.parse(body);
@@ -64,3 +44,27 @@ function parseContent(params) {
 
     return ret;
 }
+
+function crawl(momentDate){
+    return request({
+        url: 'http://www.tpex.org.tw/web/emergingstock/historical/daily/EMdes010_result.php' +
+            `?l=zh-tw&f=EMdes010.${momentDate.utcOffset('+0800').format('YYYYMMDD')}-C.csv&_=${moment('+0800', 'Z').format('X')}`,
+        method: 'GET',
+    })
+    .then((data) => {
+        return [data, momentDate];
+    })
+    .then(parseContent)
+    .catch((err) => {
+        console.log(err);
+        return [];
+    });
+}
+
+if (require.main === module) {
+    crawl(moment().add(-1, 'd')).then(function(data){
+        console.log(data);
+    });
+}
+
+module.exports.crawl = crawl;

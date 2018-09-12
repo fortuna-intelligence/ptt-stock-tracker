@@ -17,6 +17,11 @@ function parseData(data, momentDate) {
 //        console.log(newRow);
         const obj = _.zipObject(fields, newRow);
         obj.date = momentDate.toDate();
+        obj.open = isNaN(+obj.open) ? 0 : +obj.open;
+        obj.high = isNaN(+obj.high) ? 0 : +obj.high;
+        obj.low = isNaN(+obj.low) ? 0 : +obj.low;
+        obj.close = isNaN(+obj.close) ? 0 : +obj.close;
+        obj.change = isNaN(+obj.change) ? 0 : +obj.change;
         obj.volume = isNaN(+obj.volume) ? 0 : +obj.volume;
         obj.amount = isNaN(+obj.amount) ? 0 : +obj.amount;
         obj.turnover = isNaN(+obj.turnover) ? 0 : +obj.turnover;

@@ -19,7 +19,7 @@ module.exports.crawlBasic = crawlBasic;
 
 function crawlETFLinks() {
     return request({
-        uri: 'http://www.twse.com.tw/ETF/ETFlist.php',
+        uri: 'http://www.twse.com.tw/zh/ETF/news',
         encoding: null,
     }).then(function(body) {
         return iconv.decode(new Buffer(body), "big5");

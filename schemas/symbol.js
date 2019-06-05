@@ -33,7 +33,7 @@ SymbolInfo.statics = {
 
     updateData: function(data) {
         return Promise.resolve(
-            this.update({
+            this.updateOne({
                 symbol_id: data.symbol_id,
             }, {
                 $set: {

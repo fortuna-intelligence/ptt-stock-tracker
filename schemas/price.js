@@ -89,7 +89,7 @@ StockSchema.statics = {
 
     updateData: function(tick) {
         return Promise.resolve(
-            this.update({
+            this.updateOne({
                 symbol_id: tick.symbol_id,
                 date: tick.date
             }, tick, { upsert: true }).exec()

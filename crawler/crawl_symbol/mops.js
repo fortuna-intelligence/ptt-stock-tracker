@@ -63,7 +63,7 @@ function parseBasic(data){
             ret[ key[i] ] = tdData[i];
         };
         if (ret['symbol_id'] === '4527'){ ret['aliases'] = '堃霖'; }
-        if (_.contains(ignoreIds, ret['symbol_id'])){ return; }
+        if (_.includes(ignoreIds, ret['symbol_id'])){ return; }
 
         ret['market'] = markets[ret['market']];
 

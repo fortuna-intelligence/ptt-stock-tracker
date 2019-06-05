@@ -49,7 +49,7 @@ function parseIsin(body){
                 !tds.eq(5).text().match(/^DM/)
             ) {
                 var tdsContent = _.map(tds, function(val){ return $(val).text(); });
-                var tempRet = _.object(keys, tdsContent);
+                var tempRet = _.zipObject(keys, tdsContent);
                 var temp = tempRet['symbol_id'].split(/[ |　]+/);
                 tempRet['symbol_id'] = temp[0];
                 tempRet['name'] = temp[1];

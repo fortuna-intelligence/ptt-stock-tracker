@@ -25,7 +25,7 @@ function parseContent(params) {
 			return inEl.replace(/[\,\+]/g,'').trim();
 		});
 
-       	var rowObj = _.mapValues(_.object(Fields, rowInfo), function(val, key){
+       	var rowObj = _.mapValues(_.zipObject(Fields, rowInfo), function(val, key){
             return (key === 'volume' || key === 'amount' || key === 'turnover')? ( isNaN(+val)? 0 : +val ) : val;
         });
 

@@ -176,10 +176,10 @@ PttSchema.statics = {
             article_id: row.article_id
         };
         return Promise.resolve(
-            this.update(match, row, { upsert: true }).exec()
+            this.updateOne(match, row, { upsert: true }).exec()
         ).then(function(response) {
             if (response.nModified !== 0 || response.upserted) {
-                return self.update(match, {
+                return self.updateOne(match, {
                     $set: { updated_at: new Date() }
                 }).exec().then(function() {
                     return true;

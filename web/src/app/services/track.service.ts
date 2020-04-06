@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import 'rxjs/add/operator/toPromise';
+
 
 import { environment } from '../../environments/environment';
 import { Track } from '../models/track.model';
@@ -17,7 +17,7 @@ export class TrackService {
         return Promise.reject(error.message || error);
     }
 
-    getLatestTracks(page: number, size: number): Promise<Track[]> {
+    getLatestTracks(page: number, size: number): Promise<void | Track[]> {
         var url = `${environment.apiHost}/latest?page=${page}&size=${size}`;
         return this.http.get(url).toPromise().then((response) => {
             return response.json() as Track[];
@@ -26,7 +26,7 @@ export class TrackService {
         });
     }
 
-    getUserTracks(userId: string, page: number, size: number): Promise<Track[]> {
+    getUserTracks(userId: string, page: number, size: number): Promise<void | Track[]> {
         var url = `${environment.apiHost}/user?user_id=${userId}&page=${page}&size=${size}`;
         return this.http.get(url).toPromise().then((response) => {
             return response.json() as Track[];
@@ -35,7 +35,7 @@ export class TrackService {
         });
     }
 
-    getRankingTracks(page: number, size: number): Promise<Track[]> {
+    getRankingTracks(page: number, size: number): Promise<void | Track[]> {
         var url = `${environment.apiHost}/ranking?page=${page}&size=${size}`;
         return this.http.get(url).toPromise().then((response) => {
             return response.json() as Track[];
@@ -44,7 +44,7 @@ export class TrackService {
         });
     }
 
-    getSymbolTracks(symbolId: string, page: number, size: number): Promise<Track[]> {
+    getSymbolTracks(symbolId: string, page: number, size: number): Promise<void | Track[]> {
         var url = `${environment.apiHost}/symbol?symbol_id=${symbolId}&page=${page}&size=${size}`;
         return this.http.get(url).toPromise().then((response) => {
             return response.json() as Track[];

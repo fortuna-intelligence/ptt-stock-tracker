@@ -11,7 +11,7 @@ import { Track } from './models/track.model';
 })
 
 export class DashboardComponent implements OnInit {
-    
+
     page;
     size;
     userId;
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
     subscription;
     ranking;
     noMoreData = false;
-    tracks: Track[] = [];
+    tracks: void | Track[] = [];
 
     constructor(
         private router: Router,
@@ -41,32 +41,32 @@ export class DashboardComponent implements OnInit {
                 this.trackService.getUserTracks(this.userId, this.page, this.size).then((tracks) => {
                     //console.log(tracks);
                     this.tracks = tracks;
-                    if (!this.tracks.length) {
-                        this.noMoreData = true;
+                    if (!this.tracks || !this.tracks.length) {
+                      this.noMoreData = true;
                     }
                 });
             } else if (this.symbolId) {
                 this.trackService.getSymbolTracks(this.symbolId, this.page, this.size).then((tracks) => {
                     //console.log(tracks);
                     this.tracks = tracks;
-                    if (!this.tracks.length) {
-                        this.noMoreData = true;
+                    if (!this.tracks || !this.tracks.length) {
+                      this.noMoreData = true;
                     }
                 });
             } else if (this.ranking) {
                 this.trackService.getRankingTracks(this.page, this.size).then((tracks) => {
                     //console.log(tracks);
                     this.tracks = tracks;
-                    if (!this.tracks.length) {
-                        this.noMoreData = true;
+                    if (!this.tracks || !this.tracks.length) {
+                      this.noMoreData = true;
                     }
                 });
             } else {
                 this.trackService.getLatestTracks(this.page, this.size).then((tracks) => {
                     //console.log(tracks);
                     this.tracks = tracks;
-                    if (!this.tracks.length) {
-                        this.noMoreData = true;
+                    if (!this.tracks || !this.tracks.length) {
+                      this.noMoreData = true;
                     }
                 });
             }
@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
 
     prevPage(): void {
         var queryParams = {
-            page: +this.page-1, 
+            page: +this.page-1,
             size: +this.size
         };
         if (this.userId) { queryParams['user_id'] = this.userId; }
@@ -83,12 +83,12 @@ export class DashboardComponent implements OnInit {
         if (this.ranking) { queryParams['ranking'] = this.ranking; }
         this.router.navigate(['/dashboard'], {
             queryParams: queryParams
-        });        
+        });
     }
 
     nextPage(): void {
         var queryParams = {
-            page: +this.page+1, 
+            page: +this.page+1,
             size: +this.size
         };
         if (this.userId) { queryParams['user_id'] = this.userId; }

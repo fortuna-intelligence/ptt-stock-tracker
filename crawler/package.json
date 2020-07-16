@@ -28,7 +28,7 @@
     "iconv-lite": "~0.4.13",
     "ip-regex": "^1.0.3",
     "line-reader": "~0.2.4",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "mocha": "^6.1.4",
     "moment": "^2.24.0",
     "mongoose": "^5.7.5",

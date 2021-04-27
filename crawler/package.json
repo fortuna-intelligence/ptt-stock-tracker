@@ -33,7 +33,7 @@
     "moment": "^2.24.0",
     "mongoose": "^5.7.5",
     "mv": "~2.1.1",
-    "redis": "^2.4.2",
+    "redis": "^3.1.1",
     "request": "^2.88.0",
     "request-promise": "^2.0.0"
   },
